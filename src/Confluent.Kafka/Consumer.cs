@@ -795,6 +795,7 @@ namespace Confluent.Kafka
             }
 
             ConsumeResult<TKey, TValue> result = null;
+            string topic = null;
             try
             {
                 var msg = Util.Marshal.PtrToStructure<rd_kafka_message>(msgPtr);
@@ -806,7 +807,6 @@ namespace Confluent.Kafka
                     msgLeaderEpoch = Librdkafka.message_leader_epoch(msgPtr);
                 }
 
-                string topic = null;
                 if (this.enableTopicNameMarshaling)
                 {
                     if (msg.rkt != IntPtr.Zero)
@@ -970,7 +970,7 @@ namespace Confluent.Kafka
             }
             catch (Exception ex)
             {
-                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Error, driverId, ex);
+                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Consume_Error, driverId, topic, ex);
                 throw;
             }
             finally

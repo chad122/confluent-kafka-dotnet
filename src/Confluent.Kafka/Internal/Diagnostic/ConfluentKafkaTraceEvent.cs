@@ -21,6 +21,8 @@ namespace Confluent.Kafka.Internal.Diagnostic
         Consume_Start = 31,
         Consume_End = 32,
 
-        Error = 500
+        Produce_Error = 551,
+        Consume_Error = 552,
+        HandleDeliveryReport_Error = 553,
     }
 }

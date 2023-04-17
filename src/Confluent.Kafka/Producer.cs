@@ -851,12 +851,12 @@ namespace Confluent.Kafka
                             TopicPartitionOffset = new TopicPartitionOffset(topicPartition, Offset.Unset)
                         });
                 }
-                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.ProduceAsync_End, driverId, result.Status);
+                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.ProduceAsync_End, driverId, topicPartition, result.Status);
                 return result;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Error, driverId, ex);
+                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Produce_Error, driverId, topicPartition, ex);
                 throw;
             }
         }
@@ -961,11 +961,11 @@ namespace Confluent.Kafka
                         });
                 }
 
-                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Produce_End, driverId);
+                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Produce_End, driverId, topicPartition);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Error, driverId, ex);
+                ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Produce_Error, driverId, topicPartition, ex);
                 throw;
             }
         }
@@ -1076,14 +1076,14 @@ namespace Confluent.Kafka
                         Handler(dr);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.Error, ex);
+                    ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.HandleDeliveryReport_Error, Topic, ex);
                     throw;
                 }
                 finally
                 {
-                    ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.HandleDeliveryReport, dr?.Status);
+                    ConfluentKafkaTrace.TraceEvent(ConfluentKafkaTraceEvent.HandleDeliveryReport, Topic, dr?.Status);
                 }
             }
         }
